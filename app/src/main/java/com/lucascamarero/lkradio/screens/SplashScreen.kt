@@ -1,17 +1,12 @@
 package com.lucascamarero.lkradio.screens
 
-import android.view.animation.LinearInterpolator
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,7 +39,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
 
         // Pequeño → grande (LENTO)
         scale.animateTo(
-            5.2f,
+            2.1f,
             animationSpec = tween(
                 durationMillis = 2800,
                 //easing = FastOutSlowInEasing
@@ -57,7 +52,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
 
         // Grande → normal (MUY SUAVE)
         scale.animateTo(
-            2.5f,
+            0.9f,
             animationSpec = tween(
                 durationMillis = 1700,
                 easing = LinearOutSlowInEasing
@@ -71,7 +66,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primaryContainer),
+            .background(MaterialTheme.colorScheme.tertiary),
         contentAlignment = Alignment.Center
     ) {
         Image(
