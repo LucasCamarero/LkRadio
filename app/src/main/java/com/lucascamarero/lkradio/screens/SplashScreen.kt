@@ -85,10 +85,10 @@ fun SplashScreen(onTimeout: () -> Unit) {
                 painter = painterResource(R.drawable.android),
                 contentDescription = "Android",
                 modifier = Modifier
-                    .size(60.dp)
+                    .size(45.dp)
             )
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Image(
                 painter = painterResource(R.drawable.logo),
@@ -98,7 +98,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
                     .alpha(alpha.value)
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(25.dp))
 
             Text(
                 text = "Lucas Camarero",

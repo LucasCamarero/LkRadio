@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    // CAMBIAR A TRUE PARA QUE SALGA EL SPLASHSCREEN
                     var showSplash by rememberSaveable { mutableStateOf(true) }
 
                     when {
