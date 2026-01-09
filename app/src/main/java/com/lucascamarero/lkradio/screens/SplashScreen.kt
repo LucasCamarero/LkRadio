@@ -68,7 +68,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
             )
         )
 
-        delay(2300)
+        delay(1300)
         onTimeout()
     }
 

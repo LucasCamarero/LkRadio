@@ -9,26 +9,39 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.lucascamarero.lkradio.ui.theme.Typography2
+import com.lucascamarero.lkradio.RadioStation
+import com.lucascamarero.lkradio.player.RadioPlayer
+import androidx.compose.foundation.lazy.items
+
 
 @Composable
 fun RadiosList(navController: NavController){
+
+    val radiosLocales = listOf(
+        RadioStation(
+            "Cadena SER",
+            "https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3"
+        ),
+        RadioStation(
+            "RNE",
+            "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_ASO_VIGOAAC.aac"
+        )
+    )
+
     LazyColumn(
         modifier = Modifier
             .padding(20.dp),
@@ -44,12 +57,15 @@ fun RadiosList(navController: NavController){
             CreateTitle("Locales:")
         }
 
-        item {
-            CreateItem()
+        items(radiosLocales) { radio ->
+            CreateItem(
+                emisora = radio.name,
+                url = radio.url
+            )
         }
 
         item {
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(5.dp))
         }
 
         item {
@@ -78,14 +94,19 @@ fun CreateTitle(title: String) {
 
 // Crea un item de emisora
 @Composable
-fun CreateItem() {
+fun CreateItem(
+    emisora: String,
+    url: String
+) {
+    val context = LocalContext.current
+
     Row(
         modifier = Modifier
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Cadena SER",
+            text = emisora,
             style = MaterialTheme.typography.bodyMedium,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
@@ -95,7 +116,10 @@ fun CreateItem() {
         // Bloque de iconos (ancho fijo)
         Row {
             IconButton(onClick = {
-
+                RadioPlayer.play(
+                    context,
+                    url
+                )
             }) {
                 Icon(
                     imageVector = Icons.Filled.PlayArrow,
@@ -106,24 +130,13 @@ fun CreateItem() {
             }
 
             IconButton(onClick = {
-
+                RadioPlayer.stop()
             }) {
                 Icon(
                     imageVector = Icons.Filled.Stop,
                     contentDescription = "Stop",
                     tint = MaterialTheme.colorScheme.onTertiaryContainer,
                     modifier = Modifier.size(30.dp)
-                )
-            }
-
-            IconButton(onClick = {
-
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.Delete,
-                    contentDescription = "Delete",
-                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                    modifier = Modifier.size(23.dp)
                 )
             }
         }
