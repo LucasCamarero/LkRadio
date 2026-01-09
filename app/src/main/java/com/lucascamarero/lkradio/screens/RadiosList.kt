@@ -31,14 +31,55 @@ import androidx.compose.foundation.lazy.items
 @Composable
 fun RadiosList(navController: NavController){
 
+    // Emisoras locales
     val radiosLocales = listOf(
+        RadioStation(
+            "Radio Nervión",
+            ""
+        ),
+        RadioStation(
+            "Radio Popular",
+            ""
+        )
+    )
+
+    // Emisoras nacionales
+    val radiosNacionales = listOf(
         RadioStation(
             "Cadena SER",
             "https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3"
         ),
         RadioStation(
             "RNE",
-            "https://playerservices.streamtheworld.com/api/livestream-redirect/SER_ASO_VIGOAAC.aac"
+            ""
+        ),
+        RadioStation(
+            "Cope",
+            "https://madrid-cope-rrcast.flumotion.com/cope/madrid.mp3"
+        ),
+        RadioStation(
+            "Radio Marca",
+            "https://29103.live.streamtheworld.com/RADIOMARCA_NACIONAL.mp3"
+        ),
+        RadioStation(
+            "Rock FM",
+            "https://rockfm-cope-rrcast.flumotion.com/cope/rockfm-low.mp3"
+        ),
+        RadioStation(
+            "Cadena 100",
+            "https://cadena100-cope-rrcast.flumotion.com/cope/cadena100-low.mp3"
+        )
+    )
+
+    // Emisoras internacionales
+    val radiosInternacionales = listOf(
+        RadioStation(
+            "BBC",
+            ""
+        ),
+        RadioStation(
+            "CNN",
+            "https://tunein.cdnstream1.com/3517_96.mp3"
         )
     )
 
@@ -65,19 +106,33 @@ fun RadiosList(navController: NavController){
         }
 
         item {
-            Spacer(modifier = Modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(30.dp))
         }
 
         item {
             CreateTitle("Nacionales:")
         }
 
+        items(radiosNacionales) { radio ->
+            CreateItem(
+                emisora = radio.name,
+                url = radio.url
+            )
+        }
+
         item {
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(30.dp))
         }
 
         item {
             CreateTitle("Internacionales:")
+        }
+
+        items(radiosInternacionales) { radio ->
+            CreateItem(
+                emisora = radio.name,
+                url = radio.url
+            )
         }
     }
 }
