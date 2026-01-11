@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Internet para streaming -->
+    <!-- Permite a la app acceder a Internet para reproducir streams de radio -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
-    <!-- Necesario para audio en segundo plano -->
+    <!-- Permite usar servicios en primer plano (Foreground Services) -->
+    <!-- Sin esto Android no permite audio en segundo plano -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
-    <!-- Permiso obligatorio en Android 14+ para servicios de reproducción de audio -->
+    <!-- Android 14+: permiso específico para servicios de reproducción multimedia -->
+    <!-- Sin este permiso el audio se corta al apagar la pantalla -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
 
-    <!-- Android 13+ necesita permiso para notificaciones -->
+    <!-- Android 13+: permiso para mostrar notificaciones -->
+    <!-- La notificación es obligatoria cuando hay audio en segundo plano -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
@@ -23,22 +26,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LkRadio">
 
+        <!-- Actividad principal de la aplicación -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.LkRadio">
 
+            <!-- Define que esta Activity es la que se abre al lanzar la app -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <!-- 🔊 Servicio de reproducción en segundo plano -->
+        <!--
+            Servicio de reproducción de audio.
+            Es un MediaSessionService que:
+            - mantiene el audio activo en segundo plano
+            - permite controles desde la notificación, lockscreen y Bluetooth
+        -->
         <service
             android:name=".MediaPlaybackService"
             android:exported="true"
             android:foregroundServiceType="mediaPlayback">
+
+            <!-- Indica que este servicio gestiona una MediaSession -->
             <intent-filter>
                 <action android:name="androidx.media3.session.MediaSessionService"/>
             </intent-filter>

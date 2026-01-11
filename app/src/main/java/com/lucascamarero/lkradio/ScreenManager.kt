@@ -3,24 +3,13 @@ package com.lucascamarero.lkradio
 import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.*
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,34 +19,44 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import com.lucascamarero.lkradio.player.RadioPlayer
 import com.lucascamarero.lkradio.screens.RadiosList
 import com.lucascamarero.lkradio.ui.theme.Typography2
 
+/**
+ * ScreenManager es el layout principal de la aplicación.
+ * Define:
+ * - Barra superior (TopAppBar)
+ * - Contenido central (lista de radios)
+ * - Barra inferior (controles de reproducción)
+ */
 @Composable
 fun ScreenManager() {
 
+    // Controlador de navegación (aunque ahora solo hay una pantalla)
     val navController = rememberNavController()
 
     Scaffold(
-        topBar = { BarraSuperior() },
-        bottomBar = { BottomPlayerBar() }
+        topBar = { BarraSuperior() },      // Barra superior
+        bottomBar = { BottomPlayerBar() }  // Controles de reproducción
     ) { innerPadding ->
 
+        // Contenedor principal donde se muestra la pantalla activa
         Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+
+            // Sistema de navegación entre pantallas
             NavHost(
                 navController = navController,
                 startDestination = "list"
             ) {
                 composable("list") {
+                    // Pantalla con la lista de emisoras
                     RadiosList(navController)
                 }
             }
@@ -65,7 +64,10 @@ fun ScreenManager() {
     }
 }
 
-// Barra superior
+/**
+ * Barra superior de la app.
+ * Muestra el nombre y un botón para salir.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BarraSuperior() {
@@ -82,6 +84,7 @@ fun BarraSuperior() {
             Text("Lk Radio", style = Typography2.titleSmall)
         },
         actions = {
+            // Botón para cerrar la app
             IconButton(onClick = { activity?.finish() }) {
                 Icon(
                     imageVector = Icons.Filled.ExitToApp,
@@ -94,17 +97,27 @@ fun BarraSuperior() {
     )
 }
 
-// Barra inferior
+/**
+ * Barra inferior con el reproductor.
+ * Muestra:
+ * - nombre de la emisora
+ * - botón play / pause
+ * - botón stop
+ */
 @Composable
 fun BottomPlayerBar() {
 
+    // Nombre de la emisora activa
     val station = RadioPlayer.currentStation.value
+
+    // Estado de reproducción (reproduciendo o en pausa)
     val isPlaying = RadioPlayer.isPlayingState.value
 
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.background
     ) {
 
+        // Nombre de la emisora que está sonando
         Text(
             text = station ?: "",
             modifier = Modifier
@@ -116,14 +129,14 @@ fun BottomPlayerBar() {
             fontSize = 28.sp
         )
 
-        // PLAY / PAUSE grande
+        // Botón Play / Pause
         BigPlayerButton(
             icon = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow
         ) {
             if (isPlaying) RadioPlayer.pause() else RadioPlayer.resume()
         }
 
-        // STOP grande
+        // Botón Stop
         BigPlayerButton(
             icon = Icons.Filled.Stop
         ) {
@@ -132,7 +145,10 @@ fun BottomPlayerBar() {
     }
 }
 
-// Creación de botones
+/**
+ * Botón grande reutilizable para Play, Pause y Stop.
+ * Es un Box con fondo redondeado y un icono centrado.
+ */
 @Composable
 fun BigPlayerButton(
     icon: ImageVector,
