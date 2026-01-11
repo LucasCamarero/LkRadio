@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,21 +27,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.lucascamarero.lkradio.RadioStation
 import com.lucascamarero.lkradio.player.RadioPlayer
-import androidx.compose.foundation.lazy.items
-
 
 @Composable
-fun RadiosList(navController: NavController){
+fun RadiosList(navController: NavController) {
 
     // Emisoras locales
     val radiosLocales = listOf(
         RadioStation(
             "Radio Nervión",
-            ""
+            "https://stream.radionervion.com/listen/radio-nervion/radionervion.mp3"
         ),
         RadioStation(
             "Radio Popular",
-            ""
+            "https://stream.mediasector.es/listen/radio_popular/radiopopular.mp3"
         )
     )
 
@@ -48,10 +48,6 @@ fun RadiosList(navController: NavController){
         RadioStation(
             "Cadena SER",
             "https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3"
-        ),
-        RadioStation(
-            "RNE",
-            ""
         ),
         RadioStation(
             "Cope",
@@ -66,17 +62,21 @@ fun RadiosList(navController: NavController){
             "https://rockfm-cope-rrcast.flumotion.com/cope/rockfm-low.mp3"
         ),
         RadioStation(
+            "Los 40 Classic",
+            "https://28033.live.streamtheworld.com/LOS40_CLASSIC_SC"
+        ),
+        RadioStation(
             "Cadena 100",
             "https://cadena100-cope-rrcast.flumotion.com/cope/cadena100-low.mp3"
+        ),
+        RadioStation(
+            "Cadena Dial",
+            "https://23553.live.streamtheworld.com/CADENADIAL_SC"
         )
     )
 
     // Emisoras internacionales
     val radiosInternacionales = listOf(
-        RadioStation(
-            "BBC",
-            ""
-        ),
         RadioStation(
             "CNN",
             "https://tunein.cdnstream1.com/3517_96.mp3"
@@ -84,116 +84,87 @@ fun RadiosList(navController: NavController){
     )
 
     LazyColumn(
-        modifier = Modifier
-            .padding(20.dp),
+        modifier = Modifier.padding(20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start
     ) {
 
-        item {
-            Spacer(modifier = Modifier.height(25.dp))
-        }
+        item { Spacer(modifier = Modifier.height(25.dp)) }
 
-        item {
-            CreateTitle("Locales:")
-        }
+        item { CreateTitle("Locales:") }
 
         items(radiosLocales) { radio ->
-            CreateItem(
-                emisora = radio.name,
-                url = radio.url
-            )
+            CreateItem(radio.name, radio.url)
         }
 
-        item {
-            Spacer(modifier = Modifier.height(30.dp))
-        }
+        item { Spacer(modifier = Modifier.height(30.dp)) }
 
-        item {
-            CreateTitle("Nacionales:")
-        }
+        item { CreateTitle("Nacionales:") }
 
         items(radiosNacionales) { radio ->
-            CreateItem(
-                emisora = radio.name,
-                url = radio.url
-            )
+            CreateItem(radio.name, radio.url)
         }
 
-        item {
-            Spacer(modifier = Modifier.height(30.dp))
-        }
+        item { Spacer(modifier = Modifier.height(30.dp)) }
 
-        item {
-            CreateTitle("Internacionales:")
-        }
+        item { CreateTitle("Internacionales:") }
 
         items(radiosInternacionales) { radio ->
-            CreateItem(
-                emisora = radio.name,
-                url = radio.url
-            )
+            CreateItem(radio.name, radio.url)
         }
     }
 }
 
-// Crea un título: locales, nacionales e Internacionales
+// Crea un título
 @Composable
 fun CreateTitle(title: String) {
-    Text(title,
+    Text(
+        title,
         style = MaterialTheme.typography.bodyLarge,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.tertiary
     )
 }
 
-// Crea un item de emisora
+// Item de emisora
 @Composable
-fun CreateItem(
-    emisora: String,
-    url: String
-) {
+fun CreateItem(emisora: String, url: String) {
     val context = LocalContext.current
+    val isActive = RadioPlayer.currentStation.value == emisora
 
-    Row(
+    Card(
         modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = emisora,
-            style = MaterialTheme.typography.bodyMedium,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.weight(1f)
+            .fillMaxWidth()
+            .padding(vertical = 6.dp, horizontal = 15.dp),
+        onClick = {
+            RadioPlayer.play(context, emisora, url)
+        },
+        colors = CardDefaults.cardColors(
+            containerColor = if (isActive)
+                MaterialTheme.colorScheme.primaryContainer
+            else
+                MaterialTheme.colorScheme.tertiaryContainer
         )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-        // Bloque de iconos (ancho fijo)
-        Row {
-            IconButton(onClick = {
-                RadioPlayer.play(
-                    context,
-                    url
-                )
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.PlayArrow,
-                    contentDescription = "Play",
-                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                    modifier = Modifier.size(32.dp)
-                )
-            }
-
-            IconButton(onClick = {
-                RadioPlayer.stop()
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.Stop,
-                    contentDescription = "Stop",
-                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                    modifier = Modifier.size(30.dp)
-                )
-            }
+            Text(
+                text = emisora,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
+                color = if (isActive)
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                else
+                    MaterialTheme.colorScheme.onTertiaryContainer,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
         }
     }
 }

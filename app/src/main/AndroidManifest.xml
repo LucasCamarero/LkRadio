@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- 🔴 ESTO ES OBLIGATORIO PARA STREAMING -->
+    <!-- Internet para streaming -->
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Necesario para audio en segundo plano -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
+    <!-- Permiso obligatorio en Android 14+ para servicios de reproducción de audio -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+
+    <!-- Android 13+ necesita permiso para notificaciones -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -14,18 +22,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LkRadio">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.LkRadio"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/Theme.LkRadio">
 
-                <category android:name="android.intent.category.LAUNCHER" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- 🔊 Servicio de reproducción en segundo plano -->
+        <service
+            android:name=".MediaPlaybackService"
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

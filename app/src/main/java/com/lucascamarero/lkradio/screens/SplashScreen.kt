@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +27,7 @@ import kotlinx.coroutines.delay
 import com.lucascamarero.lkradio.R
 import com.lucascamarero.lkradio.ui.theme.Typography2
 import kotlinx.coroutines.launch
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun SplashScreen(onTimeout: () -> Unit) {
@@ -51,7 +50,6 @@ fun SplashScreen(onTimeout: () -> Unit) {
             2.1f,
             animationSpec = tween(
                 durationMillis = 2800,
-                //easing = FastOutSlowInEasing
                 easing = LinearOutSlowInEasing
             )
         )
@@ -75,7 +73,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.tertiary),
+            .background(MaterialTheme.colorScheme.onTertiaryContainer),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -104,7 +102,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
                 text = "Lucas Camarero",
                 style = Typography2.bodyLarge,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onTertiary
+                color = Color.White
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -112,7 +110,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
             Text(
                 text = "Multiplatform Developer",
                 style = Typography2.bodySmall,
-                color = MaterialTheme.colorScheme.onTertiary
+                color = Color.White
             )
         }
     }
