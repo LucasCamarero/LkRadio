@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.*
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -75,6 +76,7 @@ fun BarraSuperior() {
 
     val context = LocalContext.current
     val activity = context as? Activity
+    val version = remember { getAppVersion(context) }
 
     TopAppBar(
         colors = topAppBarColors(
@@ -82,7 +84,14 @@ fun BarraSuperior() {
             titleContentColor = MaterialTheme.colorScheme.tertiaryContainer,
         ),
         title = {
-            Text("Lk Radio", style = Typography2.titleSmall)
+            Row {
+                Text("Lk Radio ", style = Typography2.titleSmall)
+                Text(
+                    text = "v$version",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.7f)
+                )
+            }
         },
         actions = {
             // Botón para cerrar la app
