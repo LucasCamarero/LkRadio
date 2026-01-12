@@ -96,7 +96,7 @@ fun CreateTitle(title: String) {
         title,
         style = MaterialTheme.typography.bodyLarge,
         fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colorScheme.tertiary
+        color = MaterialTheme.colorScheme.onTertiaryContainer
     )
 }
 
@@ -127,7 +127,7 @@ fun CreateItem(emisora: String, url: String) {
             containerColor = if (isActive)
                 MaterialTheme.colorScheme.primaryContainer
             else
-                MaterialTheme.colorScheme.tertiaryContainer
+                MaterialTheme.colorScheme.onTertiaryContainer
         )
     ) {
         Row(
@@ -145,7 +145,7 @@ fun CreateItem(emisora: String, url: String) {
                 color = if (isActive)
                     MaterialTheme.colorScheme.onPrimaryContainer
                 else
-                    MaterialTheme.colorScheme.onTertiaryContainer,
+                    MaterialTheme.colorScheme.tertiaryContainer,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f)

@@ -77,8 +77,8 @@ fun BarraSuperior() {
 
     TopAppBar(
         colors = topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+            containerColor = MaterialTheme.colorScheme.onTertiaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.tertiaryContainer,
         ),
         title = {
             Text("Lk Radio", style = Typography2.titleSmall)
@@ -92,7 +92,7 @@ fun BarraSuperior() {
             Icon(
                     imageVector = Icons.Filled.ExitToApp,
                     contentDescription = "Salir",
-                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                    tint = MaterialTheme.colorScheme.tertiaryContainer,
                     modifier = Modifier.size(30.dp)
                 )
             }
@@ -126,7 +126,7 @@ fun BottomPlayerBar() {
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 26.dp),
-            color = MaterialTheme.colorScheme.primaryContainer,
+            color = MaterialTheme.colorScheme.onTertiaryContainer,
             maxLines = 1,
             fontWeight = FontWeight.Bold,
             fontSize = 28.sp
