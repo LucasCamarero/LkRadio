@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.*
@@ -128,8 +129,9 @@ fun BottomPlayerBar() {
                 .padding(start = 26.dp),
             color = MaterialTheme.colorScheme.onTertiaryContainer,
             maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Bold,
-            fontSize = 28.sp
+            fontSize = 26.sp
         )
 
         // Botón Play / Pause
