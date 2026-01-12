@@ -3,6 +3,7 @@ package com.lucascamarero.lkradio
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.media3.exoplayer.ExoPlayer
@@ -15,6 +16,9 @@ import androidx.media3.session.MediaSessionService
  * - Sonido en segundo plano
  * - Controles desde la notificación
  * - Integración con pantalla de bloqueo y Bluetooth
+ *
+ * Además:
+ * - Si el usuario cierra la app → la radio se detiene (comportamiento tipo Spotify)
  */
 class MediaPlaybackService : MediaSessionService() {
 
@@ -34,7 +38,7 @@ class MediaPlaybackService : MediaSessionService() {
         mediaSession = MediaSession.Builder(this, player).build()
 
         // Convertimos el servicio en Foreground Service
-        // Si no hacemos esto, Android cortará el audio al apagar la pantalla
+        // Esto evita que Android corte el audio cuando se apaga la pantalla
         startForeground(1, createNotification())
     }
 
@@ -68,14 +72,26 @@ class MediaPlaybackService : MediaSessionService() {
 
     /**
      * Devuelve la MediaSession cuando Android o un controlador externo
-     * (como Bluetooth o la notificación) quiere acceder al reproductor.
+     * (Bluetooth, notificación, lockscreen…) quiere acceder al reproductor.
      */
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession {
         return mediaSession
     }
 
     /**
-     * Se llama cuando el servicio se destruye.
+     * Se llama cuando el usuario cierra la app desde la vista de apps recientes.
+     *
+     * Aquí hacemos exactamente lo que hace Spotify:
+     * - Paramamos el audio
+     * - Cerramos el servicio
+     */
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        player.stop()     // Detiene la radio
+        stopSelf()        // Mata el servicio
+    }
+
+    /**
+     * Se llama cuando el servicio se destruye definitivamente.
      * Liberamos todos los recursos para evitar fugas de memoria.
      */
     override fun onDestroy() {
@@ -84,3 +100,4 @@ class MediaPlaybackService : MediaSessionService() {
         super.onDestroy()
     }
 }
+

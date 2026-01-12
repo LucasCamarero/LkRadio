@@ -85,8 +85,11 @@ fun BarraSuperior() {
         },
         actions = {
             // Botón para cerrar la app
-            IconButton(onClick = { activity?.finish() }) {
-                Icon(
+            IconButton(onClick = {
+                RadioPlayer.stop()     // Para la radio
+                activity?.finish()    // Cierra la app
+            }) {
+            Icon(
                     imageVector = Icons.Filled.ExitToApp,
                     contentDescription = "Salir",
                     tint = MaterialTheme.colorScheme.onTertiaryContainer,
