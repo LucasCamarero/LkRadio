@@ -32,7 +32,8 @@ fun RadiosList(navController: NavController) {
     // Radios locales
     val radiosLocales = listOf(
         RadioStation("Radio Nervión", "https://stream.radionervion.com/listen/radio-nervion/radionervion.mp3"),
-        RadioStation("Radio Popular", "https://stream.mediasector.es/listen/radio_popular/radiopopular.mp3")
+        RadioStation("Radio Popular", "https://stream.mediasector.es/listen/radio_popular/radiopopular.mp3"),
+        RadioStation("Bizkaia Irratia", "https://nerbioi.radiopopular.eus/bizkaiairratia1")
     )
 
     // Radios nacionales
