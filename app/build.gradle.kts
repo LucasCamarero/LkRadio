@@ -26,10 +26,10 @@ android {
         targetSdk = 36
 
         // Versión interna de la app
-        versionCode = 2
+        versionCode = 3
 
         // Versión visible al usuario
-        versionName = "1.1"
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
